@@ -651,3 +651,5 @@ if resultBC:
     print("Yes: " + ' '.join(map(str, symbolsBC)) + "\n")
 else:
     print("No\n")
+
+#testing
