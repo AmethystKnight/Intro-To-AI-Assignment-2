@@ -9,7 +9,7 @@ I.e: python iengine.py test_HornKB TT
 """
 
 def main():
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 3: # if detect incorrect number of arguments
         print("Usage: python main.py <filename> <method>")
         return
     
@@ -17,6 +17,7 @@ def main():
     method = sys.argv[2]
     kb, query = parseFile(filename)
 
+    # passes kb and query onto specific method based on whether we are using truth table or other
     # these need to be updated cuz logic.py uses different names for TruthTable etc
     if method == 'TT':
         result = TruthTable(kb, query)
@@ -34,7 +35,7 @@ if __name__ == "__main__":
     main()
 
 
-
+# reads file and extracts info like the knowledge base and the query 
 def parseFile(filename):
     with open(filename, 'r') as file: # reading the file
         content = file.read()
