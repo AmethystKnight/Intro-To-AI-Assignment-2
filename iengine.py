@@ -1,5 +1,8 @@
 import sys
-from logic import TruthTable, ForwardChaining, BackwardChaining
+import logic
+import utils
+from utils import expr
+from logic import PropDefiniteKB, expr_handle_infix_imp, expr_handle_infix_or, pl_fc_entails, pl_bc_entails
 
 """
 Usage: 
@@ -7,33 +10,6 @@ Command: python iengine.py <filename> <method>
 I.e: python iengine.py test1.txt FC
 I.e: python iengine.py test_HornKB TT
 """
-
-def main():
-    if len(sys.argv) < 3: # if detect incorrect number of arguments
-        print("Usage: python main.py <filename> <method>")
-        return
-    
-    filename = sys.argv[1]
-    method = sys.argv[2]
-    kb, query = parseFile(filename)
-
-    # passes kb and query onto specific method based on whether we are using truth table or other
-    # these need to be updated cuz logic.py uses different names for TruthTable etc
-    if method == 'TT':
-        result = TruthTable(kb, query)
-    elif method == 'FC':
-        result = ForwardChaining(kb, query)
-    elif method == 'BC':
-        result = BackwardChaining(kb, query)
-    else:
-        print("Invalid method specified.")
-        return
-
-    print("Result:", result)
-
-if __name__ == "__main__":
-    main()
-
 
 # reads file and extracts info like the knowledge base and the query 
 def parseFile(filename):
@@ -51,3 +27,47 @@ def parseFile(filename):
     query = query_raw.strip()
     
     return kb_clauses, query
+
+def main():
+    if len(sys.argv) < 3: # if detect incorrect number of arguments
+        print("Usage: python main.py <filename> <method>")
+        return
+    
+    resultFC = False
+    resultBC = False
+    filename = sys.argv[1]
+    method = sys.argv[2]
+    kb_clauses, query = parseFile(filename)
+
+    #Create knowledge base object and add the clauses into the knowledge base
+    kb = PropDefiniteKB()
+    for clause in kb_clauses:
+        clause = expr(expr_handle_infix_imp(expr_handle_infix_or(clause)))
+        kb.tell(clause)
+
+    # passes kb and query onto specific method based on whether we are using truth table or other
+    # these need to be updated cuz logic.py uses different names for TruthTable etc
+    if method == 'TT':
+        """result = TruthTable(kb, query)"""
+    elif method == 'FC':
+        result, symbolsFC =  pl_fc_entails(kb, expr(query))
+    elif method == 'BC':
+        result, symbolsBC = pl_bc_entails(kb, expr(query))
+    else:
+        print("Invalid method specified.")
+        return
+
+    # displays result based on the chosen algorithm
+    print("Result:")
+    if result:
+        if method == 'TT':
+            """"""
+        elif method == 'FC':
+            print("Yes: " + ' '.join(map(str, symbolsFC)))
+        elif method == 'BC':
+            print("Yes: " + ' '.join(map(str, symbolsBC)))
+    else:
+        print("No\n")
+
+if __name__ == "__main__":
+    main()

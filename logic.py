@@ -630,25 +630,3 @@ def new_disjunction(sentences):
 def is_variable(x):
     """A variable is an Expr with no args and a lowercase symbol as the op."""
     return isinstance(x, Expr) and not x.args and x.op[0].islower()
-
-
-kb_clauses = ['p2=> p3', 'p3 => p1', 'c => e', 'b&e => f', 'f&g => h', 'p2&p1&p3=>d', 'p1&p3 => c', 'a', 'b', 'p2']
-test_kb = PropDefiniteKB()
-for clause in kb_clauses:
-    clause = expr(expr_handle_infix_imp(expr_handle_infix_or(clause)))
-    test_kb.tell(clause)
-
-resultFC, symbolsFC =  pl_fc_entails(test_kb, expr('d'))
-resultBC, symbolsBC = pl_bc_entails(test_kb, expr('d'))
-
-print("Result for Forward Chaining:")
-if resultFC:
-    print("Yes: " + ' '.join(map(str, symbolsFC)) + "\n")
-else:
-    print("No\n")
-
-print("Result for Backward Chaining:")
-if resultBC:
-    print("Yes: " + ' '.join(map(str, symbolsBC)) + "\n")
-else:
-    print("No\n")
