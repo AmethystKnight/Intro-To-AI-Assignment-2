@@ -59,6 +59,7 @@ class KB:
 
     def tell(self, sentence):
         """Add the sentence to the KB."""
+
         raise NotImplementedError
 
     def ask(self, query):
