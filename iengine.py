@@ -17,6 +17,7 @@ def main():
     method = sys.argv[2]
     kb, query = parseFile(filename)
 
+    # these need to be updated cuz logic.py uses different names for TruthTable etc
     if method == 'TT':
         result = TruthTable(kb, query)
     elif method == 'FC':
