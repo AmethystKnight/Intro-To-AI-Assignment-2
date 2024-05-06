@@ -230,9 +230,21 @@ def tt_entails(kb, alpha):
     >>> tt_entails(expr('P & Q'), expr('Q'))
     True
     """
-    assert not variables(alpha)
-    symbols = list(prop_symbols(kb & alpha))
-    return tt_check_all(kb, alpha, symbols, {})
+def tt_entails(self, query):
+  """
+  Checks if the knowledge base entails the query using truth tables.
+  """
+  symbols = {x for clause in self.clauses for x in subexpressions(clause) if is_variable(x)}
+  all_assignments = [{symbol: value for symbol, value in zip(symbols, truth_assignment)} for truth_assignment in itertools.product([True, False], repeat=len(symbols))]
+  for assignment in all_assignments:
+    for clause in self.clauses:
+      if not pl_true(clause, assignment):
+        break  # KB clause is False under this assignment, move to next assignment
+    else:
+      if not pl_true(query, assignment):
+        return False  # KB is True, but query is False under this assignment, return False
+  return True  # No failing assignment found, KB entails the query
+
 
 
 def tt_check_all(kb, alpha, symbols, model):

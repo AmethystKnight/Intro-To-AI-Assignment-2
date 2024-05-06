@@ -8,7 +8,7 @@ from logic import PropDefiniteKB, expr_handle_infix_imp, expr_handle_infix_or, p
 Usage: 
 Command: python iengine.py <filename> <method>
 I.e: python iengine.py test1.txt FC
-I.e: python iengine.py test_HornKB TT
+I.e: python iengine.py test_HornKB.txt TT
 """
 
 # reads file and extracts info like the knowledge base and the query 
@@ -48,7 +48,7 @@ def main():
     # passes kb and query onto specific method based on whether we are using truth table or other
     # these need to be updated cuz logic.py uses different names for TruthTable etc
     if method == 'TT':
-        """result = TruthTable(kb, query)"""
+        result = logic.tt_entails(kb, expr(query)) # returns true/false
     elif method == 'FC':
         result, symbolsFC =  pl_fc_entails(kb, expr(query))
     elif method == 'BC':
@@ -61,7 +61,7 @@ def main():
     print("Result:")
     if result:
         if method == 'TT':
-            """"""
+            print("Yes") # with the top level loop checking if result is true, we can assume that TT returned true.
         elif method == 'FC':
             print("Yes: " + ' '.join(map(str, symbolsFC)))
         elif method == 'BC':
