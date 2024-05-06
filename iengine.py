@@ -35,8 +35,8 @@ def main():
     
     resultFC = False
     resultBC = False
-    filename = sys.argv[1]
-    method = sys.argv[2]
+    filename = sys.argv[1].upper()
+    method = sys.argv[2].upper()
     kb_clauses, query = parseFile(filename)
 
     #Create knowledge base object and add the clauses into the knowledge base
