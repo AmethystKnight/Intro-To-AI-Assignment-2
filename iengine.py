@@ -33,8 +33,6 @@ def main():
         print("Usage: python main.py <filename> <method>")
         return
     
-    resultFC = False
-    resultBC = False
     filename = sys.argv[1].upper()
     method = sys.argv[2].upper()
     kb_clauses, query = parseFile(filename)
