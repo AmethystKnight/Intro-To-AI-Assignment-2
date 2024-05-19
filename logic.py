@@ -121,20 +121,23 @@ def is_definite_clause(s):
         return False
 
 # ______________________________________________________________________________
+
 def tt_entails(self, query):
-  """
-  Checks if the knowledge base entails the query using truth tables.
-  """
+  # Checks if the knowledge base entails the query using truth tables and counts the number of models.
   symbols = {x for clause in self.clauses for x in subexpressions(clause) if is_variable(x)}
   all_assignments = [{symbol: value for symbol, value in zip(symbols, truth_assignment)} for truth_assignment in itertools.product([True, False], repeat=len(symbols))]
+  models = 0
   for assignment in all_assignments:
-    for clause in self.clauses:
+    all_true = True
+    for clause in self.clauses: # Checks if all false, because if so then there's no need to count how many are true
       if not pl_true(clause, assignment):
-        break  # KB clause is False under this assignment, move to next assignment
-    else:
+        all_true = False
+    if all_true:
       if not pl_true(query, assignment):
-        return False  # KB is True, but query is False under this assignment, return False
-  return True  # No failing assignment found, KB entails the query
+        return False
+      else:
+        models += 1  # Increment models counter
+  return True, models
 
 
 

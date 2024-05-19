@@ -37,16 +37,15 @@ def main():
     method = sys.argv[2].upper()
     kb_clauses, query = parseFile(filename)
 
-    #Create knowledge base object and add the clauses into the knowledge base
+    # Create knowledge base object and add the clauses into the knowledge base
     kb = PropDefiniteKB()
     for clause in kb_clauses:
         clause = expr(expr_handle_infix_imp(expr_handle_infix_or(clause)))
         kb.tell(clause)
 
     # passes kb and query onto specific method based on whether we are using truth table or other
-    # these need to be updated cuz logic.py uses different names for TruthTable etc
     if method == 'TT':
-        result = logic.tt_entails(kb, expr(query)) # returns true/false
+        result, models = logic.tt_entails(kb, expr(query)) 
     elif method == 'FC':
         result, symbolsFC =  pl_fc_entails(kb, expr(query))
     elif method == 'BC':
@@ -59,13 +58,13 @@ def main():
     print("Result:")
     if result:
         if method == 'TT':
-            print("Yes") # with the top level loop checking if result is true, we can assume that TT returned true.
+            # with the top level loop checking if result is true, we can assume that TT returned true.
+            print("YES:", models)
         elif method == 'FC':
             print("Yes: " + ' '.join(map(str, symbolsFC)))
         elif method == 'BC':
             print("Yes: " + ' '.join(map(str, symbolsBC)))
     else:
         print("No\n")
-
 if __name__ == "__main__":
     main()
