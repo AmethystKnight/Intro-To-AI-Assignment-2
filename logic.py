@@ -134,7 +134,7 @@ def tt_entails(self, query):
         all_true = False
     if all_true:
       if not pl_true(query, assignment):
-        return False
+        return False, None
       else:
         models += 1  # Increment models counter
   return True, models
