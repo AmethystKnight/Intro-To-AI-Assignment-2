@@ -1,4 +1,4 @@
 TELL
-a1 & b1 => i1; c1 & d1 => j1; e1 & f1 & g1 => k1; h1 => l1; i1 & j1 & k1 => m1; l1 & m1 => n1; b1 & e1 => o1; n1 & o1 => p1; a1 & c1 & f1 => q1; q1 & d1 => r1; r1 & g1=> s1; q1 & d1 => r1; r1 & g1 => s1; s1 & h1 => t1; t1 & u1 => v1; v1 & w1 => x1; x1 & y1=> z1; z1 => aa1; aa1 & bb1 & cc1 => dd1; dd1 & ee1 => ff1; ff1 & gg1 => hh1; hh1 => ii1; ii1 & jj1 & kk1 => ll1; ll1 & mm1 => nn1 
+p1 & q1 => v1; r1 & s1 => w1; t1 & u1 => x1; v1 & w1 => y1; x1 & y1 => z1; z1 => a2; p1 & r1 & x1 => b2; q1 & s1 => c2; b2 & c2 => d2; d2 & a2 => f2; f2 & c2 & b2 => i2; i2 => j2; j2 & k2 => l2; p1; q1; r1; s1; t1; u1;
 ASK
-nn1
+i2
