@@ -39,6 +39,7 @@ def main():
     
     filename = sys.argv[1].upper()
     method = sys.argv[2].upper()
+    displayTime = False
 
     #Determine if the user requires the display of running time of the program
     if len(sys.argv) == 4:
